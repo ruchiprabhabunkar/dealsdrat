@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: #333;
+  }
+  
+  /* .dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  } */
+/*   
+  .dashboard-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  } */
+  
+  .dashboard-content h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-content p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  
