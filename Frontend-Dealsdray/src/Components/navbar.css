@@ -29,7 +29,9 @@ body {
     color: #fff;
     font-weight: 600;
   }
-  
+  .admin-name{
+    text-decoration: none;
+  }
   .navbar-right {
     display: flex;
     align-items: center;

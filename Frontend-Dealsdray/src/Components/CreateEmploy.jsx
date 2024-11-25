@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./create.css"; 
+import "./create.css";
 
 const CreateEmployee = () => {
   const [employee, setEmployee] = useState({
@@ -10,9 +10,10 @@ const CreateEmployee = () => {
     mobileNo: "",
     designation: "",
     gender: "",
-    Course: [],
+    Course: "",
   });
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null); // State for image preview
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -23,16 +24,18 @@ const CreateEmployee = () => {
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
-    setEmployee((prev) => {
-      const updatedCourses = checked
-        ? [...prev.Course, value]
-        : prev.Course.filter((course) => course !== value);
-      return { ...prev, Course: updatedCourses };
-    });
+    setEmployee((prev) => ({
+      ...prev,
+      Course: checked ? value : "",
+    }));
   };
 
   const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file)); // Set the preview URL
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -45,16 +48,20 @@ const CreateEmployee = () => {
     formData.append("MobileNo", employee.mobileNo);
     formData.append("Designation", employee.designation);
     formData.append("Gender", employee.gender);
-    formData.append("Course", employee.Course.join(","));
+    formData.append("Course", employee.Course);
     if (imageFile) formData.append("Image", imageFile);
 
     try {
-      const response = await axios.post("http://localhost:9000/employ/create", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:9000/employ/create",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       console.log(response, "create employ");
       alert("Employee created successfully!");
@@ -118,9 +125,9 @@ const CreateEmployee = () => {
           <label>
             <input
               type="checkbox"
-              name="course"
+              name="Course"
               value="MCA"
-              checked={employee.Course.includes("MCA")}
+              checked={employee.Course === "MCA"}
               onChange={handleCheckboxChange}
             />
             MCA
@@ -128,9 +135,9 @@ const CreateEmployee = () => {
           <label>
             <input
               type="checkbox"
-              name="course"
+              name="Course"
               value="BCA"
-              checked={employee.Course.includes("BCA")}
+              checked={employee.Course === "BCA"}
               onChange={handleCheckboxChange}
             />
             BCA
@@ -138,29 +145,48 @@ const CreateEmployee = () => {
           <label>
             <input
               type="checkbox"
-              name="course"
+              name="Course"
               value="BSC"
-              checked={employee.Course.includes("BSC")}
+              checked={employee.Course === "BSC"}
               onChange={handleCheckboxChange}
             />
             BSC
           </label>
         </div>
+
         <div className="form-group">
-          <select
-            name="gender"
-            value={employee.gender}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="Male"
+              checked={employee.gender === "Male"}
+              onChange={handleChange}
+              required
+            />
+            Male
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value="Female"
+              checked={employee.gender === "Female"}
+              onChange={handleChange}
+              required
+            />
+            Female
+          </label>
         </div>
+
         <div className="form-group">
           <label>Upload Image:</label>
           <input type="file" name="Image" onChange={handleImageChange} />
+          {imagePreview && (
+            <div className="image-preview">
+              <img src={imagePreview} alt="Preview" />
+            </div>
+          )}
         </div>
         <button type="submit" className="submit-btn" disabled={loading}>
           {loading ? "Creating..." : "Create Employee"}

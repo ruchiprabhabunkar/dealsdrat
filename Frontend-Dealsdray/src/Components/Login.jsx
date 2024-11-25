@@ -25,7 +25,7 @@ const Login = ({ onLogin }) => {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      alert("An error occurred during login");
+      alert("incorrect email password");
     }
   };
 

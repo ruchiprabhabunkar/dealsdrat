@@ -31,7 +31,7 @@ const EditEmployee = () => {
         );
         setEmployee({
           ...data.employ,
-          Course: (data.employ.Course) ? data.employ.Course : [],
+          Course: (data.employ.Course) ? data.employ.Course : '',
         });
         console.log(data,"employ");
         
@@ -54,7 +54,7 @@ const EditEmployee = () => {
       setEmployee((prev) => ({
         ...prev,
         Course: checked
-          ? [...prev.Course, value] // Add the checked course
+          ?  value// Add the checked course
           : prev.Course.filter((course) => course !== value), // Remove the unchecked course
       }));
     } else {
@@ -87,8 +87,8 @@ const EditEmployee = () => {
       formData.append("MobileNo", employee.MobileNo);
       formData.append("Designation", employee.Designation);
       formData.append("Gender", employee.Gender);
-      formData.append("Course", employee.Course); // Serialize array
-      if (imageFile) formData.append("Image", imageFile); // Only append new file
+      formData.append("Course", employee.Course);
+      if (imageFile) formData.append("Image", imageFile); 
 
       await axios.put(
         `http://localhost:9000/employ/update/${id}`,
@@ -183,15 +183,29 @@ const EditEmployee = () => {
 </div>
 
 
-        <select
-          name="Gender"
-          value={employee.Gender}
-          onChange={handleChange}
-        >
-          <option value="">Select Gender</option>
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-        </select>
+<div>
+  <label>
+    <input
+      type="radio"
+      name="Gender"
+      value="Male"
+      checked={employee.Gender === "Male"}
+      onChange={handleChange}
+    />
+    Male
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="Gender"
+      value="Female"
+      checked={employee.Gender === "Female"}
+      onChange={handleChange}
+    />
+    Female
+  </label>
+</div>
+
         <div>
           <label>Upload Image:</label>
           <input type="file" name="Image" onChange={handleImageChange} />

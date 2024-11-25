@@ -33,6 +33,7 @@ const EmployeeList = () => {
       setEmployees((prevState) =>
         prevState.filter((employee) => employee._id !== id)
       );
+      alert("employ deleted successfully")
     } catch (error) {
       console.error("Error deleting employee", error);
     }

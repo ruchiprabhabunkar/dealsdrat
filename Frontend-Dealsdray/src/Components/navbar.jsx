@@ -38,7 +38,11 @@ function Navbar() {
     <div className="navbar-container">
       <nav className="navbar"> 
         <div className="navbar-left">
-          <span className="welcome-text" >Welcome,  {adminName}</span>
+         
+          <Link to="/dashboard" className="admin-name" >
+          <span className="welcome-text" >Welcome,  {adminName}    </span>
+                </Link>
+      
         </div>
         <div className="navbar-right">
           <Link to="/employee-list" className="nav-link">
